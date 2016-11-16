@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -28,7 +28,7 @@ class Socio(Base):
     nombre = Column(String(45))
     apellido = Column(String(45))
     telefono = Column(String(45))
-    activo = Column(String(45), nullable=False)
+    activo = Column(Boolean, nullable=False)
 
     def __init__(self, dni, nombre, apellido, telefono, activo):
         self.dni = dni
@@ -36,4 +36,3 @@ class Socio(Base):
         self.apellido = apellido
         self.telefono = telefono
         self.activo = activo
-

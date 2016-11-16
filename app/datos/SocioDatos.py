@@ -1,5 +1,5 @@
-from datos.BaseDatos import BaseDatos
-from datos.models import Socio
+from app.datos.BaseDatos import BaseDatos
+from app.datos.models import Socio
 
 
 class SocioDatos(BaseDatos):
@@ -27,8 +27,3 @@ class SocioDatos(BaseDatos):
 # socios = ej.getAll(Socio)
 # for socio in socios:
 #     print(socio.nombre)
-
-
-
-
-

@@ -1,4 +1,4 @@
-from datos.SocioDatos import SocioDatos
+from app.datos.SocioDatos import SocioDatos
 
 class SocioNegocio(object):
 
