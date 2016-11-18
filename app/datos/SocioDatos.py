@@ -4,14 +4,19 @@ from app.datos.models import Socio
 
 class SocioDatos(BaseDatos):
 
-    def get_socios_by_nombre(self,_nombre):
-        return super(SocioDatos,self).get_session().query(Socio).filter(Socio.nombre==_nombre)
+    def get_by_nombre(self,_nombre):
+        return super(SocioDatos, self).get_session().query(Socio).filter(Socio.nombre==_nombre)
 
-    def get_socios_by_dni(self, _dni):
-        return super(SocioDatos,self).get_session().query(Socio).filter(Socio.dni==_dni).first()
+    def get_by_dni(self, _dni):
+        return super(SocioDatos, self).get_session().query(Socio).filter(Socio.dni==_dni).first()
 
-    def get_socios(self):
-        return super(SocioDatos,self).get_session().query(Socio)
+    def get_all(self):
+        return super(SocioDatos, self).get_session().query(Socio)
+
+    def insert(self, _socio):
+        ses = super(SocioDatos, self).get_session()
+        ses.add(_socio)
+        return ses.commit()
 
 # ej = SocioDatos()
 #

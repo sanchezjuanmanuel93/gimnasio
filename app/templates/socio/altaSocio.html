@@ -4,11 +4,26 @@
 
 {% block header %}Agregar Socio{% endblock%}
 {% block content %}
-<div class="col-lg-6">
-    <form role="form">
-        <div class="form-group">
-            <label>Text Input</label>
-            <input class="form-control">
+<div class="col-lg-4">
+    <form role="form" method="post" action="alta">
+        <div class="row">
+            <div class="col-md-4">{{ form.dni.label }}:</div>
+            <div class="col-md-8">{{ form.dni(class_="form-control",required=true)}}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">{{ form.nombre.label }}:</div>
+            <div class="col-md-8">{{ form.nombre(class_="form-control",required=true)}}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">{{ form.apellido.label }}:</div>
+            <div class="col-md-8">{{ form.apellido(class_="form-control",required=true)}}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">{{ form.telefono.label }}:</div>
+            <div class="col-md-8">{{ form.telefono(class_="form-control",required=true)}}</div>
+        </div>
+        <div class="row">
+            <input type="submit" value="Guardar" class="btn btn-lg btn-primary center-block"/>
         </div>
     </form>
 </div>
