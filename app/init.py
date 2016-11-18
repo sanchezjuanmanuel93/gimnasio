@@ -6,6 +6,7 @@ app = Flask(__name__)
 # Configurations
 app.config.from_object('config')
 
+
 socioNegocio = SocioNegocio.SocioNegocio()
 
 @app.route('/')
@@ -21,5 +22,9 @@ def not_found(error):
 def get_socio_by_dni(dni):
     socio = socioNegocio.get_socios_by_dni(dni)
     return socio.nombre + " " + socio.apellido
+
+@app.route('/socio/alta')
+def altaSocio():
+    return render_template('socio/altaSocio.html')
 
 app.run(debug=True)
