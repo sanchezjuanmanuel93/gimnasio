@@ -14,11 +14,19 @@ class SocioDatos(BaseDatos):
         return super(SocioDatos, self).get_session().query(Socio)
 
     def insert(self, _socio):
-        ses = super(SocioDatos, self).get_session()
-        ses.add(_socio)
-        return ses.commit()
+        try:
+            ses = super(SocioDatos, self).get_session()
+            ses.add(_socio)
+            ses.commit()
+            return True
+        except Exception as e:
+            return False
 
 # ej = SocioDatos()
+# if ej.get_by_dni("37573140"):
+#     print("Existe")
+# else:
+#     print("no existe")
 #
 # socios = ej.getAll(Socio)
 # for socio in socios:

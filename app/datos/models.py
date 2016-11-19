@@ -1,34 +1,45 @@
-from sqlalchemy import Column, String, Boolean
+from sqlalchemy import Column, String
+from sqlalchemy import Date
+from sqlalchemy import Float
+from sqlalchemy import ForeignKey
+from sqlalchemy import Integer
 from sqlalchemy.ext.declarative import declarative_base
-
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 metadata = Base.metadata
 
-# class ModelBase(Base):
-#
-#     def __json__(self):
-#         return self.fields()
-#
-#     def fields(self):
-#         d = []
-#         for column in self.__table__.columns:
-#             d[column.name] = getattr(self, column.name)
-#         return d
-#
-#     def keys(self):
-#         columns = self.__table__.primary_key.columns
-#         return tuple([getattr(self, c.name) for c in columns])
-#
+
+class Cuota(Base):
+    __tablename__ = 'cuota'
+
+    dni_socio = Column(ForeignKey('socio.dni'), primary_key=True, nullable=False)
+    fecha_desde = Column(Date, primary_key=True, nullable=False)
+    fecha_hasta = Column(Date)
+    fecha_pago = Column(Date)
+    monto = Column(Float)
+    socio = relationship('Socio')
+
+    def __init__(self, fecha_desde, fecha_hasta, fecha_pago, monto, socio):
+        self.dni_socio = socio.dni
+        self.fecha_desde = fecha_desde
+        self.fecha_hasta = fecha_hasta
+        self.fecha_pago = fecha_pago
+        self.monto = monto
+        self.socio = socio
+
 
 class Socio(Base):
     __tablename__ = 'socio'
+
+    ACTIVO = 1;
+    NO_ACTIVO = 0;
 
     dni = Column(String(10), primary_key=True)
     nombre = Column(String(45))
     apellido = Column(String(45))
     telefono = Column(String(45))
-    activo = Column(Boolean, nullable=False)
+    activo = Column(Integer)
 
     def __init__(self, dni, nombre, apellido, telefono, activo):
         self.dni = dni

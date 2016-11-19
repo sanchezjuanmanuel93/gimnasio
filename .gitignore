@@ -2,3 +2,7 @@
 /negocio/__pycache__
 /app/__pycache__
 /.idea/
+
+app/datos/__pycache__/
+app/negocio/__pycache__/
+__pycache__/

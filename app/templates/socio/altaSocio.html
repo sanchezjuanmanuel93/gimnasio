@@ -5,7 +5,10 @@
 {% block header %}Agregar Socio{% endblock%}
 {% block content %}
 <div class="col-lg-4">
-    <form role="form" method="post" action="alta">
+    {% if error %}
+    <div class="alert alert-danger" role="alert">{{error}}</div>
+    {% endif %}
+    <form role="form" method="post" action="alta" name="altaSocioForm">
         <div class="row">
             <div class="col-md-4">{{ form.dni.label }}:</div>
             <div class="col-md-8">{{ form.dni(class_="form-control",required=true)}}</div>
@@ -23,7 +26,7 @@
             <div class="col-md-8">{{ form.telefono(class_="form-control",required=true)}}</div>
         </div>
         <div class="row">
-            <input type="submit" value="Guardar" class="btn btn-lg btn-primary center-block"/>
+            <input type="submit" value="Guardar" class="btn btn-primary center-block"/>
         </div>
     </form>
 </div>
