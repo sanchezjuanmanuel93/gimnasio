@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.50, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
 -- Host: localhost    Database: gimnasio
 -- ------------------------------------------------------
--- Server version	5.5.50-0+deb8u1
+-- Server version	5.7.15-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,6 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `cuota`
+--
+
+DROP TABLE IF EXISTS `cuota`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cuota` (
+  `dni_socio` varchar(10) NOT NULL,
+  `fecha_desde` date NOT NULL,
+  `fecha_hasta` date DEFAULT NULL,
+  `fecha_pago` date DEFAULT NULL,
+  `monto` float DEFAULT NULL,
+  PRIMARY KEY (`dni_socio`,`fecha_desde`),
+  CONSTRAINT `fk_socio` FOREIGN KEY (`dni_socio`) REFERENCES `socio` (`dni`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cuota`
+--
+
+LOCK TABLES `cuota` WRITE;
+/*!40000 ALTER TABLE `cuota` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cuota` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `socio`
 --
 
@@ -27,9 +54,9 @@ CREATE TABLE `socio` (
   `nombre` varchar(45) DEFAULT NULL,
   `apellido` varchar(45) DEFAULT NULL,
   `telefono` varchar(45) DEFAULT NULL,
-  `activo` tinyint(2) NOT NULL,
+  `activo` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`dni`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +65,7 @@ CREATE TABLE `socio` (
 
 LOCK TABLES `socio` WRITE;
 /*!40000 ALTER TABLE `socio` DISABLE KEYS */;
-INSERT INTO `socio` VALUES ('37448343','Juan Manuel','Sanchez','4573019',1);
+INSERT INTO `socio` VALUES ('37573140','Matias','Ficarrotti','3416087575',1);
 /*!40000 ALTER TABLE `socio` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +78,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-16 13:04:50
+-- Dump completed on 2016-11-19 11:54:26
