@@ -41,6 +41,38 @@ def altaSocio():
     return render_template('socio/altaSocio.html', form=form)
 
 
+@app.route('/socio/modificar/<dni>', methods=['GET', 'POST'])
+def modificarSocio(dni):
+    form = AltaSocioForm(request.form)
+    message = ""
+    if request.method == 'POST' and form.validate():
+        if socioNegocio.update_socio(form.dni.data, form.nombre.data, form.apellido.data, form.telefono.data,
+                                     form.activo.data):
+            return redirect("socio")
+        else:
+            message = "Error al modificar el Socio"
+    elif request.method == 'GET':
+        socio = socioNegocio.get_socios_by_dni(dni)
+        if socio:
+            form.apellido.data = socio.apellido
+            form.nombre.data = socio.nombre
+            form.dni.data = socio.dni
+            form.telefono.data = socio.telefono
+            form.activo.data = socio.activo
+        else:
+            message = 'No se encontro le Socio con DNI: ' + dni
+    return render_template('socio/modificarSocio.html', error=message, form=form)
+
+@app.route('/socio/borrar/<dni>')
+def borrarSocio(dni):
+    message=""
+    if socioNegocio.delete_socio(dni):
+        return redirect("socio")
+    else:
+        message="No se puede eliminar el Socio"
+    return render_template('socio/modificarSocio.html', error=message)
+
+
 @app.route('/socio/')
 def socios():
     return render_template('socio/index.html', socios=socioNegocio.get_socios())

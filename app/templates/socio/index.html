@@ -21,6 +21,8 @@
             <th>Apellido</th>
             <th>Telefono</th>
             <th>Activo</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -31,6 +33,8 @@
             <td>{{socio.apellido}}</td>
             <td>{{socio.telefono}}</td>
             <td>{{socio.activo}}</td>
+            <td><a href="{{ url_for('modificarSocio', dni=socio.dni) }}"><i class="fa fa-pencil"></i> </a></td>
+            <td><a href="{{ url_for('borrarSocio', dni=socio.dni) }}"><i class="fa fa-trash"></i> </a></td>
         </tr>
         {% endfor %}
         </tbody>
@@ -49,6 +53,7 @@
             responsive: true,
         });
     });
+
 
 
 
