@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "./main.html" %}
+
+{% block titulo %}Agregar Cuota | Gimnasio{% endblock %}
+
+{% block header %}Agregar Cuota{% endblock%}
+{% block content %}
+<div class="col-lg-4">
+    {% if error %}
+    <div class="alert alert-danger" role="alert">{{error}}</div>
+    {% endif %}
+    <form role="form" method="post" action="alta" name="altaCuotaForm">
+        <div class="row">
+            <div class="col-md-4">{{ form.dni.label }}:</div>
+            <div class="col-md-8">{{ form.dni(class_="form-control",required=true)}}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">{{ form.fechaDesde.label }}:</div>
+            <div class="col-md-8">{{ form.fechaDesde(class='datepicker',required=true) }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">{{ form.monto.label }}:</div>
+            <div class="col-md-8">{{ form.monto(class_="form-control",required=true) }}</div>
+        </div>
+        <div class="row">
+            <input type="submit" value="Guardar" class="btn btn-primary center-block"/>
+        </div>
+    </form>
+</div>
+{% endblock %}

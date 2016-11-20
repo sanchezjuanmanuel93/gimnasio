@@ -18,7 +18,7 @@ class Cuota(Base):
     fecha_hasta = Column(Date)
     fecha_pago = Column(Date)
     monto = Column(Float)
-    socio = relationship('Socio')
+    # socio = relationship('Socio')
 
     def __init__(self, fecha_desde, fecha_hasta, fecha_pago, monto, socio):
         self.dni_socio = socio.dni
@@ -26,7 +26,7 @@ class Cuota(Base):
         self.fecha_hasta = fecha_hasta
         self.fecha_pago = fecha_pago
         self.monto = monto
-        self.socio = socio
+        # self.socio = socio
 
 
 class Socio(Base):

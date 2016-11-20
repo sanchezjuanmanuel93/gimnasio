@@ -1,4 +1,5 @@
 from wtforms import Form, StringField, IntegerField, validators, RadioField, FloatField
+from wtforms.fields.html5 import DateField
 
 
 # Se crea la clase que luego se renderiza como un formulario con los campos y validaciones especificadas
@@ -11,3 +12,8 @@ class AltaSocioForm(Form):
     telefono = IntegerField('Telefono')
     # edad = IntegerField('Edad', [validators.NumberRange(min=1, max=100,message="Ingrese una edad correcta")])
     # sexo = RadioField('Sexo', choices=[('M', 'Masculino'), ('F', 'Femenino')])
+
+class AltaCuotaForm(Form):
+    dni = IntegerField('Dni', [validators.NumberRange(min=1000000, max=100000000, message="Ingrese un DNI correcto")])
+    fechaDesde = DateField('FechaDesde', format='%Y-%m-%d')
+    monto = FloatField('Monto')

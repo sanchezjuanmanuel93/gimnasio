@@ -1,15 +1,18 @@
-from app.datos.forms import AltaSocioForm
-from app.negocio import SocioNegocio
+from app.datos.forms import AltaSocioForm, AltaCuotaForm
+from app.negocio.SocioNegocio import SocioNegocio
+from app.negocio.CuotaNegocio import CuotaNegocio
 from flask import Flask, redirect, request, render_template
-from app.datos.models import Socio
+from app.datos.models import Socio,Cuota
+from datetime import datetime
+import calendar
 
 app = Flask(__name__)
 
 # Configurations
 app.config.from_object('config')
 
-socioNegocio = SocioNegocio.SocioNegocio()
-
+socioNegocio = SocioNegocio()
+cuotaNegocio = CuotaNegocio()
 
 @app.route('/')
 def hello_world():
@@ -50,5 +53,22 @@ def socios():
 def altaok():
     return "<h1>Socio ingresado correctamente</h1>"
 
+@app.route('/cuota/alta', methods=['GET', 'POST'])
+def altaCuota():
+    form = AltaCuotaForm(request.form)
+    if request.method == 'POST':
+        socio = socioNegocio.get_socios_by_dni(form.dni.data)
+        fecha_desde = form.fechaDesde.data
+        fecha_hasta = add_month(fecha_desde)
+        res = cuotaNegocio.insert_cuota(Cuota(fecha_desde, fecha_hasta, datetime.now().date(), form.monto.data, socio))
+        return redirect('altaok')
+    return render_template('cuota/altaCuota.html', form=form)
+
+def add_month(sourcedate):
+    month = sourcedate.month
+    year = int(sourcedate.year + month / 12 )
+    month = month % 12 + 1
+    day = min(sourcedate.day, calendar.monthrange(year, month)[1])
+    return datetime(year=year, month=month, day=day).date()
 
 app.run(debug=True)
