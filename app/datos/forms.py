@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, IntegerField, validators, RadioField, FloatField
+from wtforms import Form, StringField, IntegerField, validators, RadioField, FloatField, SelectField, BooleanField
 
 
 # Se crea la clase que luego se renderiza como un formulario con los campos y validaciones especificadas
@@ -9,5 +9,6 @@ class AltaSocioForm(Form):
     apellido = StringField('Apellido', [validators.Length(min=4, max=30,
                                                           message="El APELLIDO debe contener por lo menos 4 caracteres y como maximo 30")])
     telefono = IntegerField('Telefono')
+    activo = BooleanField('Activo')
     # edad = IntegerField('Edad', [validators.NumberRange(min=1, max=100,message="Ingrese una edad correcta")])
     # sexo = RadioField('Sexo', choices=[('M', 'Masculino'), ('F', 'Femenino')])
