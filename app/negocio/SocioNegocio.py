@@ -1,9 +1,13 @@
+from datetime import datetime
+
+from app.datos.CuotaDatos import CuotaDatos
 from app.datos.SocioDatos import SocioDatos
 
 
 class SocioNegocio(object):
     def __init__(self):
         self.socioDatos = SocioDatos()
+        self.cuotaDatos = CuotaDatos()
 
     def get_socios(self):
         return self.socioDatos.get_all()
@@ -34,6 +38,19 @@ class SocioNegocio(object):
             return self.socioDatos.delete(socio)
         else:
             return None
+
+    def get_socios_deudores(self):
+        socios = self.socioDatos.get_socios_activos()
+        deudores = []
+        for socio in socios:
+            cuota = socio.get_ultima_cuota()
+            if cuota:
+                if cuota.fecha_hasta < datetime.now().date():
+                    deudores.append(socio)
+            else:
+                deudores.append(socio)
+        return deudores
+
 #
 # ej = SocioNegocio()
 # ej.update_socio("37448343","juan23","sanchez23","12312",0)

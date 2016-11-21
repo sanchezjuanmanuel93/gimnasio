@@ -23,3 +23,9 @@ class CuotaDatos(BaseDatos):
         ses = super(CuotaDatos, self).get_session()
         all = ses.query(Cuota).filter(Cuota.dni_socio == _dni)
         return all.order_by(Cuota.fecha_desde.desc()).first()
+
+
+# c = CuotaDatos()
+# cuota = c.get_last_by_dni("37448343")
+# if cuota.fecha_hasta < '2016-11-24':
+#     print(cuota.fecha_hasta)

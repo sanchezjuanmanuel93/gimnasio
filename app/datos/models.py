@@ -19,7 +19,7 @@ class Cuota(Base):
     fecha_hasta = Column(Date)
     fecha_pago = Column(Date)
     monto = Column(Float)
-    # socio = relationship('Socio')
+    socio = relationship('Socio')
 
     def __init__(self, fecha_desde, fecha_hasta, fecha_pago, monto, socio):
         self.dni_socio = socio.dni
@@ -42,6 +42,9 @@ class Socio(Base):
     telefono = Column(String(45))
     activo = Column(Integer, server_default=text("'1'"))
 
+    cuotas = relationship("Cuota", back_populates="socio")
+
+
     def __init__(self, dni, nombre, apellido, telefono, activo):
         self.dni = dni
         self.nombre = nombre
@@ -51,3 +54,7 @@ class Socio(Base):
 
     def get_apellido_nombre(self):
         return self.apellido+' '+self.nombre
+
+    def get_ultima_cuota(self):
+        return self.cuotas[-1]
+        #return sorted(self.cuotas, key=Cuota.fecha_hasta).desc().first()
