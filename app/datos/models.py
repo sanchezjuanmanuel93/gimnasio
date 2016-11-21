@@ -2,7 +2,8 @@ from sqlalchemy import Column, String
 from sqlalchemy import Date
 from sqlalchemy import Float
 from sqlalchemy import ForeignKey
-from sqlalchemy import Integer
+from sqlalchemy import Integer, Boolean
+from sqlalchemy import text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -39,7 +40,7 @@ class Socio(Base):
     nombre = Column(String(45))
     apellido = Column(String(45))
     telefono = Column(String(45))
-    activo = Column(Integer)
+    activo = Column(Integer, server_default=text("'1'"))
 
     def __init__(self, dni, nombre, apellido, telefono, activo):
         self.dni = dni

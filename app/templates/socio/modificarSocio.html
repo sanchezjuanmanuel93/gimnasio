@@ -1,0 +1,43 @@
+{% extends "./main.html" %}
+
+{% block titulo %}Modificar Socio | Gimnasio{% endblock %}
+
+{% block header %}Modificar Socio{% endblock%}
+{% block content %}
+<div class="col-lg-4">
+    <form role="form" method="post" name="modificarSocioForm">
+        <div class="row">
+            <div class="col-md-4">{{ form.dni.label }}:</div>
+            <div class="col-md-8">{{ form.dni(class_="form-control",required=true,readonly=true)}}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">{{ form.nombre.label }}:</div>
+            <div class="col-md-8">{{ form.nombre(class_="form-control",required=true)}}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">{{ form.apellido.label }}:</div>
+            <div class="col-md-8">{{ form.apellido(class_="form-control",required=true)}}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">{{ form.telefono.label }}:</div>
+            <div class="col-md-8">{{ form.telefono(class_="form-control",required=true)}}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">{{ form.activo.label }}:</div>
+            <div class="col-md-8">{{ form.activo()}}</div>
+        </div>
+        <div class="row">
+            <input type="submit" value="Guardar" class="btn btn-primary center-block"/>
+        </div>
+    </form>
+</div>
+{% block scripts %}
+{{ super() }}
+<script>
+$(document).ready(function(){
+    $('#activo').bootstrapSwitch();
+});
+</script>
+{% endblock %}
+
+{% endblock %}

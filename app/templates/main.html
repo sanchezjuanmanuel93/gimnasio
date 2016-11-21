@@ -6,6 +6,9 @@
     <!-- Bootstrap Core CSS -->
     <link href="{{url_for('static', filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
 
+    <!-- BootstrapSwitch CSS -->
+    <link href="{{url_for('static', filename='bootstrap-switch/css/bootstrap-switch.min.css')}}" rel="stylesheet">
+
     <!-- MetisMenu CSS -->
     <link href="{{url_for('static', filename='metisMenu/metisMenu.min.css')}}" rel="stylesheet">
 
@@ -282,10 +285,10 @@
                         <a href="#"><i class="fa fa-users fa-fw"></i>Socios<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="{{ url_for('altaSocio') }}">Nuevo</a>
+                                <a href="{{ url_for('socios') }}">Buscar</a>
                             </li>
                             <li>
-                                <a href="morris.html">Morris.js Charts</a>
+                                <a href="{{ url_for('altaSocio') }}">Nuevo</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
@@ -376,14 +379,22 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
-        <div class="row container">
-            {% block content %}
-
-            {% endblock %}
+        <div class="row">
+            <div class="col-lg-6">
+                {% block error %}
+                {% if error %}
+                <div class="alert alert-danger" role="alert">{{error}}</div>
+                {% endif %}
+                {% endblock %}
+            </div>
         </div>
-        <!-- /.row -->
+        {% block content %}
+        {% endblock %}
+
     </div>
-    <!-- /#page-wrapper -->
+    <!-- /.row -->
+</div>
+<!-- /#page-wrapper -->
 
 </div>
 <!-- /#wrapper -->
@@ -404,8 +415,12 @@
 <script src="{{url_for('static', filename='morrisjs/morris.min.js')}}"></script>
 <script src="{{url_for('static', filename='morrisjs/morris-data.js')}}"></script>
 
+<!-- BootstrapSwitch CSS -->
+<script src="{{url_for('static', filename='bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+
+
+{% endblock %}
 <!-- Custom Theme JavaScript -->
 <script src="{{url_for('static', filename='bs-admin2/js/sb-admin-2.js')}}"></script>
-{% endblock %}
 </body>
 </html>
