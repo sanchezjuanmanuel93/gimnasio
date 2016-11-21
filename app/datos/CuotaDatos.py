@@ -18,3 +18,8 @@ class CuotaDatos(BaseDatos):
             return True
         except Exception as e:
             return False
+
+    def get_last_by_dni(self, _dni):
+        ses = super(CuotaDatos, self).get_session()
+        all = ses.query(Cuota).filter(Cuota.dni_socio == _dni)
+        return all.order_by(Cuota.fecha_desde.desc()).first()

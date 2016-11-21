@@ -1,0 +1,18 @@
+{% extends "./main.html" %}
+
+{% block titulo %}Estado Socio | Gimnasio{% endblock %}
+
+{% block header %}Estado Socio{% endblock%}
+{% block content %}
+<div class="col-lg-4">
+    <form role="form" method="post" action="" name="altaSocioForm">
+        <div class="row">
+            <div class="col-md-4">{{ form.dni.label }}:</div>
+            <div class="col-md-8">{{ form.dni(class_="form-control",required=true)}}</div>
+        </div>
+        <div class="row">
+            <input type="submit" value="Buscar" class="btn btn-primary center-block"/>
+        </div>
+    </form>
+</div>
+{% endblock %}

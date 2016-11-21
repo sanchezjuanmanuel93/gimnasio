@@ -1,4 +1,4 @@
-from app.datos.forms import AltaSocioForm, AltaCuotaForm
+from app.datos.forms import AltaSocioForm, AltaCuotaForm, GetEstadoSocio
 from app.negocio.SocioNegocio import SocioNegocio
 from app.negocio.CuotaNegocio import CuotaNegocio
 from flask import Flask, redirect, request, render_template
@@ -14,10 +14,29 @@ app.config.from_object('config')
 socioNegocio = SocioNegocio()
 cuotaNegocio = CuotaNegocio()
 
-@app.route('/')
-def hello_world():
-    socio = socioNegocio.get_socios()
-    return socio[0].nombre
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    form = GetEstadoSocio(request.form)
+    if request.method == 'POST' and form.validate():
+        socio = socioNegocio.get_socios_by_dni(form.dni.data)
+        if(socio):
+            ultima_cuota = cuotaNegocio.get_last_by_dni(socio.dni)
+            if(ultima_cuota):
+                fecha_hasta = ultima_cuota.fecha_hasta
+                if (fecha_hasta > datetime.now().date()):
+                    dias_restantes = (fecha_hasta - datetime.now().date()).days
+                    message = "Socio al dia. Quedan " + str(dias_restantes) + " dias restantes"
+                    return render_template('index.html', success=message, form=form)
+                else:
+                    error = "Cuota vencida"
+                    return render_template('index.html', error=error, form=form)
+            else:
+                error = "Cuota vencida"
+                return render_template('index.html', error=error, form=form)
+        else:
+            error="El socio no existe"
+            return render_template('index.html', error=error, form=form)
+    return render_template('index.html', form=form)
 
 
 @app.errorhandler(404)
