@@ -3,6 +3,11 @@ from wtforms import Form, StringField, IntegerField, validators, RadioField, Flo
 
 
 # Se crea la clase que luego se renderiza como un formulario con los campos y validaciones especificadas
+from app.negocio.SocioNegocio import SocioNegocio
+
+sn = SocioNegocio()
+
+
 class AltaSocioForm(Form):
     dni = IntegerField('Dni', [validators.NumberRange(min=1000000, max=100000000, message="Ingrese un DNI correcto")])
     nombre = StringField('Nombre', [
@@ -15,7 +20,7 @@ class AltaSocioForm(Form):
     # sexo = RadioField('Sexo', choices=[('M', 'Masculino'), ('F', 'Femenino')])
 
 class AltaCuotaForm(Form):
-    dni = IntegerField('Dni', [validators.NumberRange(min=1000000, max=100000000, message="Ingrese un DNI correcto")])
+    socio = SelectField('Dni', choices=[(g.dni, g.get_apellido_nombre()) for g in (sn.get_socios())])
     fechaDesde = DateField('FechaDesde', format='%Y-%m-%d')
     monto = FloatField('Monto')
 

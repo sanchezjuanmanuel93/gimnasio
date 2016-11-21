@@ -47,19 +47,14 @@
 <script src="{{url_for('static', filename='datatables-plugins/dataTables.bootstrap.min.js')}}"></script>
 <script src="{{url_for('static', filename='datatables-responsive/dataTables.responsive.js')}}"></script>
 
+
+{% endblock %}
+<!-- Custom Theme JavaScript -->
 <script>
     $(document).ready(function() {
         $('#tblSocio').DataTable({
             responsive: true,
         });
     });
-
-
-
-
-
-
 </script>
-{% endblock %}
-
 {% endblock %}

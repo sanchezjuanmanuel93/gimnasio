@@ -2,6 +2,12 @@
 
 {% block titulo %}Agregar Cuota | Gimnasio{% endblock %}
 
+{% block estilos %}
+{{ super() }}
+<!-- Select2 CSS -->
+<link href="{{url_for('static', filename='select2/css/select2.min.css')}}" rel="stylesheet">
+{% endblock%}
+
 {% block header %}Agregar Cuota{% endblock%}
 {% block content %}
 <div class="col-lg-4">
@@ -10,8 +16,8 @@
     {% endif %}
     <form role="form" method="post" action="alta" name="altaCuotaForm">
         <div class="row">
-            <div class="col-md-4">{{ form.dni.label }}:</div>
-            <div class="col-md-8">{{ form.dni(class_="form-control",required=true)}}</div>
+            <div class="col-md-4">{{ form.socio.label }}:</div>
+            <div class="col-md-8">{{ form.socio()}}</div>
         </div>
         <div class="row">
             <div class="col-md-4">{{ form.fechaDesde.label }}:</div>
@@ -26,4 +32,12 @@
         </div>
     </form>
 </div>
+{% block scripts %}
+{{ super() }}
+<!-- Select2 JavaScript -->
+<script src="{{url_for('static', filename='select2/js/select2.min.js')}}"></script>
+{% endblock %}
+<script>
+  $('#socio').select2();
+</script>
 {% endblock %}

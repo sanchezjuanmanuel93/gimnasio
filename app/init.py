@@ -108,12 +108,13 @@ def altaok():
 def altaCuota():
     form = AltaCuotaForm(request.form)
     if request.method == 'POST':
-        socio = socioNegocio.get_socios_by_dni(form.dni.data)
+        socio = socioNegocio.get_socios_by_dni(form.socio.data)
         fecha_desde = form.fechaDesde.data
         fecha_hasta = add_month(fecha_desde)
         res = cuotaNegocio.insert_cuota(Cuota(fecha_desde, fecha_hasta, datetime.now().date(), form.monto.data, socio))
         return redirect('altaok')
-    return render_template('cuota/altaCuota.html', form=form)
+    else:
+        return render_template('cuota/altaCuota.html', form=form)
 
 def add_month(sourcedate):
     month = sourcedate.month
