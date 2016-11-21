@@ -18,3 +18,6 @@ class AltaCuotaForm(Form):
     dni = IntegerField('Dni', [validators.NumberRange(min=1000000, max=100000000, message="Ingrese un DNI correcto")])
     fechaDesde = DateField('FechaDesde', format='%Y-%m-%d')
     monto = FloatField('Monto')
+
+class GetEstadoSocio(Form):
+    dni = IntegerField('Dni', [validators.NumberRange(min=1000000, max=100000000, message="Ingrese un DNI correcto")])
