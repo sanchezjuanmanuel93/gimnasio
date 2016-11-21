@@ -10,7 +10,7 @@ class SocioDatos(BaseDatos):
         return super(SocioDatos, self).get_session().query(Socio).filter(Socio.dni == _dni).first()
 
     def get_all(self):
-        return super(SocioDatos, self).get_session().query(Socio)
+        return super(SocioDatos, self).get_session().query(Socio).order_by(Socio.apellido.asc())
 
     def insert(self, _socio):
         try:

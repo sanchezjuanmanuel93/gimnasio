@@ -48,3 +48,6 @@ class Socio(Base):
         self.apellido = apellido
         self.telefono = telefono
         self.activo = activo
+
+    def get_apellido_nombre(self):
+        return self.apellido+' '+self.nombre

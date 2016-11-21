@@ -3,6 +3,7 @@
 /app/__pycache__
 /.idea/
 
-app/datos/__pycache__/
+app/datos/__pycache__/*.pyc
 app/negocio/__pycache__/
 __pycache__/
+*.pyc
