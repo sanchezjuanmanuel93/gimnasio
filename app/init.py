@@ -112,7 +112,8 @@ def altaCuota():
         fecha_desde = form.fechaDesde.data
         fecha_hasta = add_month(fecha_desde)
         res = cuotaNegocio.insert_cuota(Cuota(fecha_desde, fecha_hasta, datetime.now().date(), form.monto.data, socio))
-        return redirect('altaok')
+        message = "Cuota agregada correctamente"
+        return render_template('cuota/altaCuota.html', form=form, success=message)
     else:
         return render_template('cuota/altaCuota.html', form=form)
 
