@@ -123,4 +123,10 @@ def add_month(sourcedate):
     day = min(sourcedate.day, calendar.monthrange(year, month)[1])
     return datetime(year=year, month=month, day=day).date()
 
+
+@app.route('/informes/deudores')
+def informesDeudores():
+    return render_template('informes/deudores.html', socios=socioNegocio.get_socios_deudores())
+
+
 app.run(debug=True)
