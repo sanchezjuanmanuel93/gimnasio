@@ -2,7 +2,7 @@ from app.datos.forms import AltaSocioForm, AltaCuotaForm, GetEstadoSocio
 from app.negocio.SocioNegocio import SocioNegocio
 from app.negocio.CuotaNegocio import CuotaNegocio
 from flask import Flask, redirect, request, render_template
-from app.datos.models import Socio,Cuota
+from app.datos.models import Socio, Cuota
 from datetime import datetime
 import calendar
 
@@ -14,14 +14,15 @@ app.config.from_object('config')
 socioNegocio = SocioNegocio()
 cuotaNegocio = CuotaNegocio()
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = GetEstadoSocio(request.form)
     if request.method == 'POST' and form.validate():
         socio = socioNegocio.get_socios_by_dni(form.dni.data)
-        if(socio):
+        if (socio):
             ultima_cuota = cuotaNegocio.get_last_by_dni(socio.dni)
-            if(ultima_cuota):
+            if (ultima_cuota):
                 fecha_hasta = ultima_cuota.fecha_hasta
                 if (fecha_hasta > datetime.now().date()):
                     dias_restantes = (fecha_hasta - datetime.now().date()).days
@@ -34,7 +35,7 @@ def index():
                 error = "Cuota vencida"
                 return render_template('index.html', error=error, form=form)
         else:
-            error="El socio no existe"
+            error = "El socio no existe"
             return render_template('index.html', error=error, form=form)
     return render_template('index.html', form=form)
 
@@ -88,13 +89,14 @@ def modificarSocio(dni):
             message = 'No se encontro le Socio con DNI: ' + dni
     return render_template('socio/modificarSocio.html', error=message, form=form)
 
+
 @app.route('/socio/borrar/<dni>')
 def borrarSocio(dni):
-    message=""
+    message = ""
     if socioNegocio.delete_socio(dni):
         return redirect("socio")
     else:
-        message="No se puede eliminar el Socio"
+        message = "No se puede eliminar el Socio"
     return render_template('socio/modificarSocio.html', error=message)
 
 
@@ -107,22 +109,23 @@ def socios():
 def altaok():
     return "<h1>Socio ingresado correctamente</h1>"
 
+
 @app.route('/cuota/alta', methods=['GET', 'POST'])
 def altaCuota():
     form = AltaCuotaForm(request.form)
     if request.method == 'POST':
         socio = socioNegocio.get_socios_by_dni(form.socio.data)
-        fecha_desde = form.fechaDesde.data
-        fecha_hasta = add_month(fecha_desde)
-        res = cuotaNegocio.insert_cuota(Cuota(fecha_desde, fecha_hasta, form.monto.data, socio))
+        socio.cuotas.append(Cuota(form.fechaDesde.data, form.fechaHasta.data, form.monto.data, socio))
+        socioNegocio.update_socio(socio)
         message = "Cuota agregada correctamente"
         return render_template('cuota/altaCuota.html', form=form, success=message)
     else:
         return render_template('cuota/altaCuota.html', form=form)
 
+
 def add_month(sourcedate):
     month = sourcedate.month
-    year = int(sourcedate.year + month / 12 )
+    year = int(sourcedate.year + month / 12)
     month = month % 12 + 1
     day = min(sourcedate.day, calendar.monthrange(year, month)[1])
     return datetime(year=year, month=month, day=day).date()
