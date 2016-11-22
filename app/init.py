@@ -1,4 +1,4 @@
-from app.datos.forms import AltaSocioForm, AltaCuotaForm, GetEstadoSocio
+from app.datos.forms import AltaSocioForm, AltaCuotaForm, GetEstadoSocio, InformeIngresos
 from app.negocio.SocioNegocio import SocioNegocio
 from app.negocio.CuotaNegocio import CuotaNegocio
 from flask import Flask, redirect, request, render_template
@@ -135,5 +135,15 @@ def add_month(sourcedate):
 def informesDeudores():
     return render_template('informes/deudores.html', socios=socioNegocio.get_socios_deudores())
 
+@app.route('/informes/ingresos', methods=['GET', 'POST'])
+def informesIngresos():
+    form = InformeIngresos(request.form)
+    if request.method == 'POST':
+        cuotas = cuotaNegocio.get_all_by_dates(form.fechaDesde.data, form.fechaHasta.data)
+        total = 0
+        for c in cuotas:
+            total += c.monto
+        return render_template('informes/ingresos.html', form=form, cuotas=cuotas, total=total)
+    return render_template('informes/ingresos.html', form=form)
 
 app.run(debug=True)
