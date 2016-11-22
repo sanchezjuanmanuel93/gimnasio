@@ -53,13 +53,16 @@ def get_socio_by_dni(dni):
 @app.route('/socio/alta', methods=['GET', 'POST'])
 def altaSocio():
     form = AltaSocioForm(request.form)
-    if request.method == 'POST' and form.validate():
-        if socioNegocio.insert_socio(
-                Socio(form.dni.data, form.nombre.data, form.apellido.data, form.telefono.data, Socio.ACTIVO)):
-            return redirect("socio")
+    if request.method == 'POST':
+        if form.validate():
+            if socioNegocio.insert_socio(
+                    Socio(form.dni.data, form.nombre.data, form.apellido.data, form.telefono.data, Socio.ACTIVO)):
+                return redirect("socio")
+            else:
+                message = "Error al insertar el socio"
+                return render_template('socio/altaSocio.html', error=message, form=form)
         else:
-            message = "Error al insertar el socio"
-            return render_template('socio/altaSocio.html', error=message, form=form)
+            return render_template('socio/altaSocio.html', form=form)
     return render_template('socio/altaSocio.html', form=form)
 
 
@@ -111,7 +114,7 @@ def altaCuota():
         socio = socioNegocio.get_socios_by_dni(form.socio.data)
         fecha_desde = form.fechaDesde.data
         fecha_hasta = add_month(fecha_desde)
-        res = cuotaNegocio.insert_cuota(Cuota(fecha_desde, fecha_hasta, datetime.now().date(), form.monto.data, socio))
+        res = cuotaNegocio.insert_cuota(Cuota(fecha_desde, fecha_hasta, form.monto.data, socio))
         message = "Cuota agregada correctamente"
         return render_template('cuota/altaCuota.html', form=form, success=message)
     else:

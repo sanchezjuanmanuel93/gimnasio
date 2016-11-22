@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String
 from sqlalchemy import Date
+from sqlalchemy import DateTime
 from sqlalchemy import Float
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer, Boolean
@@ -17,7 +18,7 @@ class Cuota(Base):
     dni_socio = Column(ForeignKey('socio.dni'), primary_key=True, nullable=False)
     fecha_desde = Column(Date, primary_key=True, nullable=False)
     fecha_hasta = Column(Date)
-    fecha_pago = Column(Date)
+    fecha_pago = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
     monto = Column(Float)
     socio = relationship('Socio')
 
@@ -27,7 +28,12 @@ class Cuota(Base):
         self.fecha_hasta = fecha_hasta
         self.fecha_pago = fecha_pago
         self.monto = monto
-        # self.socio = socio
+
+    def __init__(self, fecha_desde, fecha_hasta, monto, socio):
+        self.dni_socio = socio.dni
+        self.fecha_desde = fecha_desde
+        self.fecha_hasta = fecha_hasta
+        self.monto = monto
 
 
 class Socio(Base):
@@ -56,5 +62,8 @@ class Socio(Base):
         return self.apellido+' '+self.nombre
 
     def get_ultima_cuota(self):
-        return self.cuotas[-1]
+        if len(self.cuotas) > 0:
+            return self.cuotas[-1]
+        else:
+            return None
         #return sorted(self.cuotas, key=Cuota.fecha_hasta).desc().first()

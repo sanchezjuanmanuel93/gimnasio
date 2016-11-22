@@ -2,6 +2,7 @@ from datetime import datetime
 
 from app.datos.CuotaDatos import CuotaDatos
 from app.datos.SocioDatos import SocioDatos
+from app.datos.models import Cuota, Socio
 
 
 class SocioNegocio(object):
@@ -11,6 +12,9 @@ class SocioNegocio(object):
 
     def get_socios(self):
         return self.socioDatos.get_all()
+
+    def get_socios_activos(self):
+        return self.socioDatos.get_socios_activos()
 
     def get_socios_by_dni(self, _dni):
         return self.socioDatos.get_by_dni(_dni)
@@ -35,7 +39,8 @@ class SocioNegocio(object):
     def delete_socio(self, dni):
         socio = self.get_socios_by_dni(dni)
         if socio:
-            return self.socioDatos.delete(socio)
+            socio.activo = Socio.NO_ACTIVO
+            return self.socioDatos.update(socio)
         else:
             return None
 
@@ -47,10 +52,17 @@ class SocioNegocio(object):
             if cuota:
                 if cuota.fecha_hasta < datetime.now().date():
                     deudores.append(socio)
-            else:
-                deudores.append(socio)
         return deudores
 
+    def update_socio(self, socio):
+        socio = self.get_socios_by_dni(socio.dni)
+        if socio:
+            return self.socioDatos.update(socio)
+        else:
+            return None
 #
 # ej = SocioNegocio()
-# ej.update_socio("37448343","juan23","sanchez23","12312",0)
+# socio = ej.get_socios_by_dni("37448343")
+# cuota = Cuota('2016-11-22','2016-12-22',222,socio)
+# socio.cuotas.append(cuota)
+# ej.update_socio(socio)
