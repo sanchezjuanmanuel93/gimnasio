@@ -8,7 +8,7 @@
     <form role="form" method="post" action="" name="altaSocioForm">
         <div class="row">
             <div class="col-md-4">{{ form.dni.label }}:</div>
-            <div class="col-md-8">{{ form.dni(class_="form-control",required=true, maxlength=9, mixlength=7,pattern=".{7,9}") }}</div>
+            <div class="col-md-4">{{ form.dni(class_="form-control",required=true, maxlength=9, mixlength=7,pattern=".{7,9}") }}</div>
         </div>
         <div class="row">
             <input type="submit" value="Buscar" class="btn btn-primary center-block"/>
@@ -18,11 +18,11 @@
      {% if socio %}
         <div class="row">
             <div class="col-md-4">{{ form.apenom.label }}:</div>
-            <div class="col-md-8">{{ form.apenom(class='form-control',required=true,readonly=true) }}</div>
+            <div class="col-md-4">{{ form.apenom(class='form-control',required=true,readonly=true) }}</div>
         </div>
         <div class="row">
             <div class="col-md-4">{{ form.telefono.label }}:</div>
-            <div class="col-md-8">{{ form.telefono(class='form-control',required=true,readonly=true) }}</div>
+            <div class="col-md-4">{{ form.telefono(class='form-control',required=true,readonly=true) }}</div>
         </div>
         <br/>
         <table width="100%" class="table table-striped table-bordered table-hover" id="tblCuotas">
