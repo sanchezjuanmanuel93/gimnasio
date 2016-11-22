@@ -19,35 +19,41 @@
         </div>
     </form>
     {% if cuotas %}
-    <div class="col-md-4 alert alert-success" role="alert">
-        <ul>
-            <li>Ingresos = ${{total}}</li>
-            <li>Cantidad cuotas = {{cuotas.count()}}</li>
-            <li>Valor promedio cuota = {{total/(cuotas.count())}}</li>
-        </ul>
-    </div>
-    <table width="100%" class="table table-striped table-bordered table-hover" id="tblCuotas">
-        <thead>
-        <tr>
-            <th>Fecha Pago</th>
-            <th>Dni</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Monto</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for cuota in cuotas %}
-        <tr class="odd gradeX">
-            <td>{{cuota.fecha_pago}}</td>
-            <td>{{cuota.dni_socio}}</td>
-            <td>{{cuota.socio.nombre}}</td>
-            <td>{{cuota.socio.apellido}}</td>
-            <td>${{cuota.monto}}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        {% if cuotas.count()>0 %}
+        <div class="col-md-4 alert alert-success" role="alert">
+            <ul>
+                <li>Ingresos = ${{total}}</li>
+                <li>Cantidad cuotas = {{cuotas.count()}}</li>
+                <li>Valor promedio cuota = {{total/(cuotas.count())}}</li>
+            </ul>
+        </div>
+        <table width="100%" class="table table-striped table-bordered table-hover" id="tblCuotas">
+            <thead>
+            <tr>
+                <th>Fecha Pago</th>
+                <th>Dni</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Monto</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cuota in cuotas %}
+            <tr class="odd gradeX">
+                <td>{{cuota.fecha_pago}}</td>
+                <td>{{cuota.dni_socio}}</td>
+                <td>{{cuota.socio.nombre}}</td>
+                <td>{{cuota.socio.apellido}}</td>
+                <td>${{cuota.monto}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else  %}
+        <div class="alert alert-danger" role="alert">
+            No existen cuotas abonadas en el rango de fechas especificado
+        </div>
+        {% endif %}
     {% endif %}
 </div>
 {% endblock %}
