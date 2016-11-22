@@ -44,6 +44,9 @@ class SocioDatos(BaseDatos):
         return super(SocioDatos, self).get_session().query(Socio).filter(Socio.activo == Socio.ACTIVO)
 
 
+    def get_socios_cuota(self):
+        return super(SocioDatos, self).get_session().query(Socio).filter(Socio.cuotas)
+
 # ej = SocioDatos()
 # socios = ej.get_socios_activos()
 # for socio in socios:
@@ -65,6 +68,11 @@ class SocioDatos(BaseDatos):
 
 # ej = SocioDatos()
 # socio = ej.get_by_dni("37448344")
+# cuota = Cuota('2016-11-30','2016-12-30','2016-11-21',200,socio)
+# socio.cuotas.append(cuota)
+# ej.update(socio)
+
+
 # print(socio.get_ultima_cuota().fecha_hasta)
 
 

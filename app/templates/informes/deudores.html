@@ -13,7 +13,7 @@
             <th>Apellido</th>
             <th>Telefono</th>
             <th>Vencido desde</th>
-
+            <th>Dar de Baja</th>
         </tr>
         </thead>
         <tbody>
@@ -23,7 +23,9 @@
             <td>{{socio.nombre}}</td>
             <td>{{socio.apellido}}</td>
             <td>{{socio.telefono}}</td>
-            <td>{{socio.get_ultima_cuota().fecha_hasta }}</td>
+            <td>{{socio.get_ultima_cuota().fecha_hasta.strftime('%d-%m-%Y') }}</td>
+            <td><a href="{{ url_for('borrarSocio', dni=socio.dni) }}" class="btn btn-danger"><i class="fa fa-trash"></i> </a></td>
+            </td>
         </tr>
         {% endfor %}
         </tbody>

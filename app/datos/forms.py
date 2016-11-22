@@ -20,8 +20,9 @@ class AltaSocioForm(Form):
     # sexo = RadioField('Sexo', choices=[('M', 'Masculino'), ('F', 'Femenino')])
 
 class AltaCuotaForm(Form):
-    socio = SelectField('Dni', choices=[(g.dni, g.get_apellido_nombre()) for g in (sn.get_socios())])
-    fechaDesde = DateField('FechaDesde', format='%Y-%m-%d')
+    socio = SelectField('Socio', choices=[(g.dni, g.get_apellido_nombre()) for g in (sn.get_socios())])
+    fechaDesde = StringField('Fecha Desde')
+    fechaHasta = StringField('Fecha Hasta')
     monto = FloatField('Monto')
 
 class GetEstadoSocio(Form):

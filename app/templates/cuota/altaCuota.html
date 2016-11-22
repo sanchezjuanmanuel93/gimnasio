@@ -11,17 +11,18 @@
 {% block header %}Agregar Cuota{% endblock%}
 {% block content %}
 <div class="col-lg-4">
-    {% if error %}
-    <div class="alert alert-danger" role="alert">{{error}}</div>
-    {% endif %}
     <form role="form" method="post" action="alta" name="altaCuotaForm">
         <div class="row">
             <div class="col-md-4">{{ form.socio.label }}:</div>
-            <div class="col-md-8">{{ form.socio()}}</div>
+            <div class="col-md-8">{{ form.socio(class='form-control')}}</div>
         </div>
         <div class="row">
             <div class="col-md-4">{{ form.fechaDesde.label }}:</div>
-            <div class="col-md-8">{{ form.fechaDesde(class='datepicker',required=true) }}</div>
+            <div class="col-md-8">{{ form.fechaDesde(class='form-control',required=true) }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">{{ form.fechaHasta.label }}:</div>
+            <div class="col-md-8">{{ form.fechaHasta(class='form-control',required=true,readonly=true) }}</div>
         </div>
         <div class="row">
             <div class="col-md-4">{{ form.monto.label }}:</div>
@@ -38,6 +39,39 @@
 <script src="{{url_for('static', filename='select2/js/select2.min.js')}}"></script>
 {% endblock %}
 <script>
+$(document).ready(function(){
   $('#socio').select2();
+
+var nowTemp = new Date();
+var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+var checkin = $('#fechaDesde').datepicker({
+  setDate: now,
+  format:'yyyy-mm-dd',
+  onRender: function(date) {
+    return date.valueOf() < now.valueOf() ? 'disabled' : '';
+  }
+}).on('changeDate', function(ev) {
+  if (ev.date.valueOf() > checkout.date.valueOf()) {
+    var newDate = new Date(ev.date)
+    newDate.setMonth(newDate.getMonth() + 1);
+    checkout.setValue(newDate);
+  }
+  checkin.hide();
+  $('#fechaHasta')[0].focus();
+}).data('datepicker');
+var checkout = $('#fechaHasta').datepicker({
+  format:'yyyy-mm-dd',
+  onRender: function(date) {
+    return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+  }
+}).on('changeDate', function(ev) {
+  checkout.hide();
+}).data('datepicker');
+
+
+});
+
+
 </script>
 {% endblock %}
