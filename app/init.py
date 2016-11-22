@@ -21,16 +21,18 @@ def index():
     if request.method == 'POST' and form.validate():
         socio = socioNegocio.get_socios_by_dni(form.dni.data)
         if (socio):
-            ultima_cuota = cuotaNegocio.get_last_by_dni(socio.dni)
+            form.apenom.data = socio.apellido + " " + socio.nombre
+            form.telefono.data = socio.telefono
+            ultima_cuota = socio.get_ultima_cuota()
             if (ultima_cuota):
                 fecha_hasta = ultima_cuota.fecha_hasta
                 if (fecha_hasta > datetime.now().date()):
                     dias_restantes = (fecha_hasta - datetime.now().date()).days
                     message = "Socio al dia. Quedan " + str(dias_restantes) + " dias restantes"
-                    return render_template('index.html', success=message, form=form)
+                    return render_template('index.html', success=message, form=form, socio=socio)
                 else:
                     error = "Cuota vencida"
-                    return render_template('index.html', error=error, form=form)
+                    return render_template('index.html', error=error, form=form, socio=socio)
             else:
                 error = "Cuota vencida"
                 return render_template('index.html', error=error, form=form)

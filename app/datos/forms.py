@@ -27,6 +27,8 @@ class AltaCuotaForm(Form):
 
 class GetEstadoSocio(Form):
     dni = IntegerField('Dni', [validators.NumberRange(min=1000000, max=100000000, message="Ingrese un DNI correcto")])
+    apenom = StringField('Apellido y nombre')
+    telefono = IntegerField('Telefono')
 
 class InformeIngresos(Form):
     fechaDesde= DateField('Fecha Desde')
