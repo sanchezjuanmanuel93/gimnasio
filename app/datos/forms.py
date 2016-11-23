@@ -31,5 +31,5 @@ class GetEstadoSocio(Form):
     telefono = IntegerField('Telefono')
 
 class InformeIngresos(Form):
-    fechaDesde= DateField('Fecha Desde')
-    fechaHasta = DateField('Fecha Hasta')
+    fechaDesde= StringField('Fecha Desde')
+    fechaHasta = StringField('Fecha Hasta')
