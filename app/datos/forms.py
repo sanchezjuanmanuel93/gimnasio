@@ -35,3 +35,4 @@ class InformeIngresos(Form):
 class Login(Form):
     usuario = StringField('Usuario')
     password = PasswordField('Clave')
+
