@@ -1,16 +1,7 @@
-<<<<<<< HEAD
 from app.datos.forms import AltaSocioForm, AltaCuotaForm, GetEstadoSocio, InformeIngresos, Login
+from flask import Flask, redirect, request, render_template, session, jsonify
 from app.negocio.SocioNegocio import SocioNegocio
 from app.negocio.CuotaNegocio import CuotaNegocio
-from flask import Flask, redirect, request, render_template, session
-=======
-from flask import json
-
-from app.datos.forms import AltaSocioForm, AltaCuotaForm, GetEstadoSocio, InformeIngresos
-from app.negocio.SocioNegocio import SocioNegocio
-from app.negocio.CuotaNegocio import CuotaNegocio
-from flask import Flask, redirect, request, render_template, jsonify
->>>>>>> master
 from app.datos.models import Socio, Cuota
 from datetime import datetime, date
 import calendar
@@ -33,7 +24,7 @@ def index():
         if (socio):
             form.apenom.data = socio.apellido + " " + socio.nombre
             form.telefono.data = socio.telefono
-            socio.cuotas= sorted(socio.cuotas, key=attrgetter('fecha_desde'), reverse=True)
+            socio.cuotas = sorted(socio.cuotas, key=attrgetter('fecha_desde'), reverse=True)
             ultima_cuota = socio.get_ultima_cuota()
             if (ultima_cuota):
                 fecha_hasta = ultima_cuota.fecha_hasta
@@ -63,6 +54,7 @@ def get_socio_by_dni(dni):
     socio = socioNegocio.get_socios_by_dni(dni)
     return socio.nombre + " " + socio.apellido
 
+
 @app.route('/socio/alta', methods=['GET', 'POST'])
 def altaSocio():
     form = AltaSocioForm(request.form)
@@ -84,8 +76,9 @@ def modificarSocio(dni):
     form = AltaSocioForm(request.form)
     message = ""
     if request.method == 'POST' and form.validate():
-        if socioNegocio.update_socio(form.dni.data, form.nombre.data, form.apellido.data, form.telefono.data,
-                                     form.activo.data):
+        activo = 1 if form.activo.data == True else 0
+        if socioNegocio.modificar_socio(form.dni.data, form.nombre.data, form.apellido.data, form.telefono.data,
+                                        activo):
             return redirect("socio")
         else:
             message = "Error al modificar el Socio"
@@ -147,6 +140,7 @@ def add_month(sourcedate):
 def informesDeudores():
     return render_template('informes/deudores.html', socios=socioNegocio.get_socios_deudores())
 
+
 @app.route('/informes/ingresos', methods=['GET', 'POST'])
 def informesIngresos():
     form = InformeIngresos(request.form)
@@ -157,6 +151,7 @@ def informesIngresos():
             total += c.monto
         return render_template('informes/ingresos.html', form=form, cuotas=cuotas, total=total)
     return render_template('informes/ingresos.html', form=form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -170,15 +165,18 @@ def login():
             error = 'Invalid credentials. Try again.'
     return render_template("login.html", error=error, form=form)
 
+
 @app.route('/logout')
 def logout():
     session.pop('admin', None)
     return redirect("/")
 
+
 @app.route('/api/socio/get/<dni>')
 def getSocioObj(dni):
     socio = socioNegocio.get_socios_by_dni(dni)
     return jsonify(socio.__json__())
+
 
 @app.route('/api/socio/<dni>/cuota')
 def getSocioU(dni):
@@ -188,5 +186,6 @@ def getSocioU(dni):
         return jsonify(str(asd))
     else:
         return None
+
 
 app.run(debug=True)

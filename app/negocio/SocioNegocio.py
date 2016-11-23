@@ -11,7 +11,7 @@ class SocioNegocio(object):
         self.cuotaDatos = CuotaDatos()
 
     def get_socios(self):
-        return self.socioDatos.get_all()
+        return SocioDatos().get_all()
 
     def get_socios_activos(self):
         return self.socioDatos.get_socios_activos()
@@ -25,7 +25,7 @@ class SocioNegocio(object):
         else:
             return self.socioDatos.insert(socio)
 
-    def update_socio(self, dni, nombre, apellido, telefono, activo):
+    def modificar_socio(self, dni, nombre, apellido, telefono, activo):
         socio = self.get_socios_by_dni(dni)
         if socio:
             socio.nombre = nombre
