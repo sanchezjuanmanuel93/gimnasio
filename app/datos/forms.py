@@ -1,5 +1,5 @@
 from wtforms.fields.html5 import DateField
-from wtforms import Form, StringField, IntegerField, validators, RadioField, FloatField, SelectField, BooleanField
+from wtforms import Form, StringField, IntegerField, validators, FloatField, SelectField, BooleanField, PasswordField
 
 
 # Se crea la clase que luego se renderiza como un formulario con los campos y validaciones especificadas
@@ -29,5 +29,10 @@ class GetEstadoSocio(Form):
     telefono = IntegerField('Telefono')
 
 class InformeIngresos(Form):
-    fechaDesde= StringField('Fecha Desde')
-    fechaHasta = StringField('Fecha Hasta')
+    fechaDesde= DateField('Fecha Desde')
+    fechaHasta = DateField('Fecha Hasta')
+
+class Login(Form):
+    usuario = StringField('Usuario')
+    password = PasswordField('Clave')
+
