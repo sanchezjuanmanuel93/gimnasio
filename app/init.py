@@ -1,11 +1,11 @@
-from app.datos.forms import AltaSocioForm, AltaCuotaForm, GetEstadoSocio, InformeIngresos
+from app.datos.forms import AltaSocioForm, AltaCuotaForm, GetEstadoSocio, InformeIngresos, Login
 from app.negocio.SocioNegocio import SocioNegocio
 from app.negocio.CuotaNegocio import CuotaNegocio
-from flask import Flask, redirect, request, render_template
+from flask import Flask, redirect, request, render_template, session
 from app.datos.models import Socio, Cuota
 from datetime import datetime
 import calendar
-from operator import itemgetter, attrgetter, methodcaller
+from operator import attrgetter
 
 app = Flask(__name__)
 
@@ -53,7 +53,6 @@ def not_found(error):
 def get_socio_by_dni(dni):
     socio = socioNegocio.get_socios_by_dni(dni)
     return socio.nombre + " " + socio.apellido
-
 
 @app.route('/socio/alta', methods=['GET', 'POST'])
 def altaSocio():
@@ -149,5 +148,22 @@ def informesIngresos():
             total += c.monto
         return render_template('informes/ingresos.html', form=form, cuotas=cuotas, total=total)
     return render_template('informes/ingresos.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    form = Login(request.form)
+    if request.method == 'POST':
+        if form.usuario.data == "admin" and form.password.data == "1234":
+            session['admin'] = True
+            return redirect("/")
+        else:
+            error = 'Invalid credentials. Try again.'
+    return render_template("login.html", error=error, form=form)
+
+@app.route('/logout')
+def logout():
+    session.pop('admin', None)
+    return redirect("/")
 
 app.run(debug=True)
