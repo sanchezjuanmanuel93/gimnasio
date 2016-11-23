@@ -16,8 +16,6 @@ class AltaSocioForm(Form):
                                                           message="El APELLIDO debe contener por lo menos 4 caracteres y como maximo 30")])
     telefono = IntegerField('Telefono')
     activo = BooleanField('Activo')
-    # edad = IntegerField('Edad', [validators.NumberRange(min=1, max=100,message="Ingrese una edad correcta")])
-    # sexo = RadioField('Sexo', choices=[('M', 'Masculino'), ('F', 'Femenino')])
 
 class AltaCuotaForm(Form):
     socio = SelectField('Socio', choices=[(g.dni, g.get_apellido_nombre()) for g in (sn.get_socios())])

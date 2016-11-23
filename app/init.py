@@ -5,6 +5,7 @@ from flask import Flask, redirect, request, render_template
 from app.datos.models import Socio, Cuota
 from datetime import datetime
 import calendar
+from operator import itemgetter, attrgetter, methodcaller
 
 app = Flask(__name__)
 
@@ -23,6 +24,7 @@ def index():
         if (socio):
             form.apenom.data = socio.apellido + " " + socio.nombre
             form.telefono.data = socio.telefono
+            socio.cuotas= sorted(socio.cuotas, key=attrgetter('fecha_desde'), reverse=True)
             ultima_cuota = socio.get_ultima_cuota()
             if (ultima_cuota):
                 fecha_hasta = ultima_cuota.fecha_hasta
