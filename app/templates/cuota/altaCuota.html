@@ -42,23 +42,20 @@
 $(document).ready(function(){
   $('#socio').select2();
 
+
+
 var nowTemp = new Date();
 var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
 var checkin = $('#fechaDesde').datepicker({
   setDate: now,
-  format:'yyyy-mm-dd',
-  onRender: function(date) {
-    return date.valueOf() < now.valueOf() ? 'disabled' : '';
-  }
+  format:'yyyy-mm-dd'
 }).on('changeDate', function(ev) {
-  if (ev.date.valueOf() > checkout.date.valueOf()) {
     var newDate = new Date(ev.date)
     newDate.setMonth(newDate.getMonth() + 1);
     checkout.setValue(newDate);
-  }
-  checkin.hide();
-  $('#fechaHasta')[0].focus();
+    checkin.hide();
+    $('#fechaHasta')[0].focus();
 }).data('datepicker');
 var checkout = $('#fechaHasta').datepicker({
   format:'yyyy-mm-dd',
@@ -68,6 +65,32 @@ var checkout = $('#fechaHasta').datepicker({
 }).on('changeDate', function(ev) {
   checkout.hide();
 }).data('datepicker');
+
+
+$( "#socio" ).change(function() {
+    $.ajax({
+        url: '/api/socio/'+$(this).val()+'/cuota',
+        success: function(cuota){
+            fechaDesdeEstimada = new Date(cuota)
+            fechaHastaEstimada = new Date(fechaDesdeEstimada)
+            fechaHastaEstimada.setMonth(fechaDesdeEstimada.getMonth() + 1)
+            $('#fechaDesde').datepicker('setValue', fechaDesdeEstimada)
+            $('#fechaHasta').datepicker('setValue', fechaHastaEstimada)
+            checkin.setValue(fechaDesdeEstimada)
+            checkout.setValue(fechaHastaEstimada)
+        },
+        error: function(err){
+            fechaActual = new Date()
+            fechaEstimada = new Date(fechaActual)
+            fechaEstimada.setMonth(fechaEstimada.getMonth() + 1)
+            $('#fechaDesde').datepicker('setValue', fechaActual)
+            $('#fechaHasta').datepicker('setValue', fechaEstimada)
+            checkin.setValue(fechaActual)
+            checkout.setValue(fechaEstimada)
+        }
+    });
+});
+
 });
 
 

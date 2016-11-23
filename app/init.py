@@ -1,9 +1,11 @@
+from flask import json
+
 from app.datos.forms import AltaSocioForm, AltaCuotaForm, GetEstadoSocio, InformeIngresos
 from app.negocio.SocioNegocio import SocioNegocio
 from app.negocio.CuotaNegocio import CuotaNegocio
-from flask import Flask, redirect, request, render_template
+from flask import Flask, redirect, request, render_template, jsonify
 from app.datos.models import Socio, Cuota
-from datetime import datetime
+from datetime import datetime, date
 import calendar
 from operator import itemgetter, attrgetter, methodcaller
 
@@ -149,5 +151,20 @@ def informesIngresos():
             total += c.monto
         return render_template('informes/ingresos.html', form=form, cuotas=cuotas, total=total)
     return render_template('informes/ingresos.html', form=form)
+
+@app.route('/api/socio/get/<dni>')
+def getSocioObj(dni):
+    socio = socioNegocio.get_socios_by_dni(dni)
+    return jsonify(socio.__json__())
+
+@app.route('/api/socio/<dni>/cuota')
+def getSocioU(dni):
+    cuota = socioNegocio.get_socios_by_dni(dni).get_ultima_cuota()
+    if cuota:
+        asd = date(cuota.fecha_hasta.year, cuota.fecha_hasta.month, cuota.fecha_hasta.day)
+        return jsonify(str(asd))
+    else:
+        return None
+
 
 app.run(debug=True)
